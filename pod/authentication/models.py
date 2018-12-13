@@ -35,12 +35,14 @@ AFFILIATION = getattr(
         ('registered-reader', _('registered-reader'))
     )
 )
+AFFILIATION_DICT = {key: value for key, value in AFFILIATION}
 ESTABLISHMENT = getattr(
     settings, 'ESTABLISHMENT',
     (
         ('123456', _('University of Lille')),
     )
 )
+ESTABLISHMENT_DICT = {key: value for key, value in ESTABLISHMENT}
 SECRET_KEY = getattr(settings, 'SECRET_KEY', '')
 FILES_DIR = getattr(
     settings, 'FILES_DIR', 'files')
@@ -86,6 +88,11 @@ class Owner(models.Model):
     @property
     def email(self):
         return self.user.email
+    
+    def get_affiliation(self):
+        return "%s" % AFFILIATION_DICT[self.affiliation]
+    def get_establishment(self):
+        return "%s" % ESTABLISHMENT_DICT[self.establishment]
 
 
 @receiver(post_save, sender=User)
